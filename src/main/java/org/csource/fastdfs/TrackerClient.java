@@ -71,6 +71,71 @@ public class TrackerClient {
         return this.getStoreStorage(trackerServer, groupName);
     }
 
+    public Connection getConnection(TrackerServer trackerServer) throws IOException, MyException {
+        Connection connection = null;
+        int length = this.tracker_group.tracker_servers.length;
+        boolean failOver = length > 1 && trackerServer == null;
+        try {
+            if (trackerServer == null) {
+                trackerServer = getTrackerServer();
+                if (trackerServer == null) {
+                    throw new MyException("tracker server is empty!");
+                }
+            }
+            connection = trackerServer.getConnection();
+        } catch (IOException e) {
+            if (failOver) {
+                System.err.println("trackerServer get connection error, emsg:" + e.getMessage());
+            } else {
+                throw e;
+            }
+        } catch (MyException e) {
+            if (failOver) {
+                System.err.println("trackerServer get connection error, emsg:" + e.getMessage());
+            } else {
+                throw e;
+            }
+        }
+        if (connection != null || !failOver) {
+            return connection;
+        }
+        //do fail over
+        int currentIndex = 0;
+        if (trackerServer != null) {
+            currentIndex = trackerServer.getIndex();
+        }
+        int failOverCount = 0;
+        while (failOverCount < length - 1) {
+            failOverCount++;
+            currentIndex++;
+            if (currentIndex >= length) {
+                currentIndex = 0;
+            }
+            try {
+                trackerServer = this.tracker_group.getTrackerServer(currentIndex);
+                if (trackerServer == null) {
+                    throw new MyException("tracker server is empty!");
+                }
+                return trackerServer.getConnection();
+            } catch (IOException e) {
+                System.err.println("fail over trackerServer get connection error, failOverCount:" + failOverCount + "," + e.getMessage());
+                if (failOverCount == length - 1) {
+                    throw e;
+                }
+
+            } catch (MyException e) {
+                System.err.println("fail over trackerServer get connection error, failOverCount:" + failOverCount + ", " + e.getMessage());
+                if (failOverCount == length - 1) {
+                    throw e;
+                }
+            }
+
+
+        }
+        return null;
+    }
+
+
     /**
      * query storage server to upload file
      *
@@ -85,12 +150,7 @@ public class TrackerClient {
         byte cmd;
         int out_len;
         byte store_path;
-        Connection connection;
-
-        if (trackerServer == null) {
-            trackerServer = getTrackerServer();
-        }
-        connection = trackerServer.getConnection();
+        Connection connection = getConnection(trackerServer);
         OutputStream out = connection.getOutputStream();
 
         try {
@@ -170,16 +230,7 @@ public class TrackerClient {
         int port;
         byte cmd;
         int out_len;
-        Connection connection;
-
-        if (trackerServer == null) {
-            trackerServer = getTrackerServer();
-            if (trackerServer == null) {
-                return null;
-            }
-        }
-
-        connection = trackerServer.getConnection();
+        Connection connection = getConnection(trackerServer);
         OutputStream out = connection.getOutputStream();
 
         try {
@@ -343,15 +394,7 @@ public class TrackerClient {
         int len;
         String ip_addr;
         int port;
-        Connection connection;
-
-        if (trackerServer == null) {
-            trackerServer = getTrackerServer();
-            if (trackerServer == null) {
-                return null;
-            }
-        }
-        connection = trackerServer.getConnection();
+        Connection connection = getConnection(trackerServer);
         OutputStream out = connection.getOutputStream();
 
         try {
@@ -473,16 +516,7 @@ public class TrackerClient {
         byte cmd;
         int out_len;
         byte store_path;
-        Connection connection;
-
-        if (trackerServer == null) {
-            trackerServer = getTrackerServer();
-            if (trackerServer == null) {
-                return null;
-            }
-        }
-
-        connection = trackerServer.getConnection();
+        Connection connection = getConnection(trackerServer);
         OutputStream out = connection.getOutputStream();
 
         try {
@@ -548,15 +582,7 @@ public class TrackerClient {
         byte[] bGroupName;
         byte[] bs;
         int len;
-        Connection connection;
-
-        if (trackerServer == null) {
-            trackerServer = getTrackerServer();
-            if (trackerServer == null) {
-                return null;
-            }
-        }
-        connection = trackerServer.getConnection();
+        Connection connection = getConnection(trackerServer);
         OutputStream out = connection.getOutputStream();
 
         try {
