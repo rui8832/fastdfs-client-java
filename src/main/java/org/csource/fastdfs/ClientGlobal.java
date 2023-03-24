@@ -48,7 +48,6 @@ public class ClientGlobal {
   public static final String PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME = "fastdfs.connection_pool.max_idle_time";
   public static final String PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS = "fastdfs.connection_pool.max_wait_time_in_ms";
 
-
   public static final int DEFAULT_CONNECT_TIMEOUT = 5; //second
   public static final int DEFAULT_NETWORK_TIMEOUT = 30; //second
   public static final String DEFAULT_CHARSET = "UTF-8";
@@ -180,7 +179,6 @@ public class ClientGlobal {
     String poolMaxCountPerEntry = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_COUNT_PER_ENTRY);
     String poolMaxIdleTime  = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_IDLE_TIME);
     String poolMaxWaitTimeInMS = props.getProperty(PROP_KEY_CONNECTION_POOL_MAX_WAIT_TIME_IN_MS);
-
     if (connectTimeoutInSecondsConf != null && connectTimeoutInSecondsConf.trim().length() != 0) {
       g_connect_timeout = Integer.parseInt(connectTimeoutInSecondsConf.trim()) * 1000;
     }
@@ -221,7 +219,7 @@ public class ClientGlobal {
    *                       server之间用逗号','分隔
    */
   public static void initByTrackers(String trackerServers) throws IOException, MyException {
-    List<InetSocketAddress> list = new ArrayList();
+    List<InetSocketAddress> list = new ArrayList<InetSocketAddress>();
     String spr1 = ",";
     String spr2 = ":";
     String[] arr1 = trackerServers.trim().split(spr1);
@@ -337,7 +335,8 @@ public class ClientGlobal {
       InetSocketAddress[] trackerAddresses = g_tracker_group.tracker_servers;
       for (InetSocketAddress inetSocketAddress : trackerAddresses) {
         if(trackerServers.length() > 0) trackerServers += ",";
-        trackerServers += inetSocketAddress.toString().substring(1);
+        String address = inetSocketAddress.toString();
+        trackerServers += address.startsWith("/") ? address.substring(1) : address;
       }
     }
     return "{"

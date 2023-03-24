@@ -93,7 +93,7 @@ mvn install:install-file -DgroupId=org.csource -DartifactId=fastdfs-client-java 
 <dependency>
   <groupId>org.csource</groupId>
   <artifactId>fastdfs-client-java</artifactId>
-  <version>1.29-SNAPSHOT</version>
+  <version>1.30-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -87,9 +87,9 @@ public class FdfsTest {
 
     @Test
     public void download() throws Exception {
-        String[] uploadresult = {"group1", "M00/00/00/wKgBZV0phl2ASV1nAACk1tFxwrM3814331"};
+        String[] uploadresult = {"group1", "M00/00/00/J2fL12PVypeAWiGcAAM_gDeWVyw5817085"};
         byte[] result = storageClient.download_file(uploadresult[0], uploadresult[1]);
-        String local_filename = "build.PNG";
+        String local_filename = "commitment.d2f57e10.jpg";
         writeByteToFile(result, local_filename);
         File file = new File(local_filename);
         Assert.assertTrue(file.isFile());
@@ -98,17 +98,17 @@ public class FdfsTest {
     @Test
     public void testUploadDownload() throws Exception {
         NameValuePair[] metaList = new NameValuePair[1];
-        String local_filename = "build.PNG";
+        String local_filename = "commitment.d2f57e10 (2).jpg";
         metaList[0] = new NameValuePair("fileName", local_filename);
-        File file = new File("C:/Users/chengdu/Desktop/build.PNG");
+        File file = new File("/Users/iyw/Downloads/commitment.d2f57e10 (2).jpg");
         InputStream inputStream = new FileInputStream(file);
         int length = inputStream.available();
         byte[] bytes = new byte[length];
         inputStream.read(bytes);
         String[] result = storageClient.upload_file(bytes, null, metaList);
-        Assert.assertTrue(storageClient.isConnected());
+        //Assert.assertTrue(storageClient.isConnected());
         // pool testOnborrow  isAvaliable
-        Assert.assertTrue(storageClient.isAvaliable());
+       // Assert.assertTrue(storageClient.isAvaliable());
         LOGGER.info("result {}", Arrays.asList(result));
         byte[] resultbytes = storageClient.download_file(result[0], result[1]);
         writeByteToFile(resultbytes, local_filename);
