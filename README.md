@@ -12,7 +12,7 @@ FastDFS Java Client API may be copied only under the terms of the BSD license.
   <!-- TODO 主仓库 groupId -->
   <!--
   <groupId>org.csource</groupId>
-  <groupId>org.happyfish100</groupId>
+  <groupId>io.github.happyfish100</groupId>
   -->
   <groupId>io.github.rui8832</groupId>
   <artifactId>fastdfs-client-java</artifactId>
@@ -28,7 +28,7 @@ FastDFS Java Client API may be copied only under the terms of the BSD license.
   <dependencies>
     <dependency>
       <!-- TODO 主仓库 groupId -->
-      <!-- 
+      <!--
       <groupId>org.csource</groupId>
       <groupId>io.github.happyfish100</groupId>
       -->
