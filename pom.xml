@@ -6,9 +6,12 @@
   <!-- TODO 主仓库 groupId -->
   <!--
   <groupId>org.csource</groupId>
+  <groupId>io.github.happyfish100</groupId>
   -->
   <groupId>io.github.rui8832</groupId>
   <artifactId>fastdfs-client-java</artifactId>
+  <!-- <version>1.30-SNAPSHOT</version> -->
+  <!-- <version>1.30-20230328</version> -->
   <version>1.30-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>fastdfs-client-java</name>
@@ -150,10 +153,6 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
-                <configuration>
-                  <keyname>${gpg.keyname}</keyname>
-                  <passphraseServerId>${gpg.keyname}</passphraseServerId>
-                </configuration>
               </execution>
             </executions>
           </plugin>

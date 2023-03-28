@@ -10,9 +10,13 @@ FastDFS Java Client API may be copied only under the terms of the BSD license.
 
 <dependency>
   <!-- TODO 主仓库 groupId -->
+  <!--
+  <groupId>org.csource</groupId>
+  <groupId>org.happyfish100</groupId>
+  -->
   <groupId>io.github.rui8832</groupId>
   <artifactId>fastdfs-client-java</artifactId>
-  <version>1.29-20211022</version>
+  <version>1.30-20230328</version>
 </dependency>
 ```
 
@@ -24,9 +28,13 @@ FastDFS Java Client API may be copied only under the terms of the BSD license.
   <dependencies>
     <dependency>
       <!-- TODO 主仓库 groupId -->
+      <!-- 
+      <groupId>org.csource</groupId>
+      <groupId>io.github.happyfish100</groupId>
+      -->
       <groupId>io.github.rui8832</groupId>
       <artifactId>fastdfs-client-java</artifactId>
-      <version>1.29-SNAPSHOT</version>
+      <version>1.30-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
@@ -48,23 +56,34 @@ FastDFS Java Client API may be copied only under the terms of the BSD license.
 
 注：
 
-* 版本 `1.29-20211022` 是“正式”的 `1.29-SNAPSHOT` 版。
+* 版本 `1.30-20230328` 是“正式”的 `1.30-SNAPSHOT` 版。
 * 为了通过发布到中央仓库的验证流程，我使用我了 fork 的 `groupId` 进行发布，故中央仓库的 `groupId` 与作者不一致。
 * 主仓库要发布到 maven 中央仓库需要维护者 happyfish100 注册 sonatype 帐号，生成 GPG，完成验证和发布，届时可以使用作者发布的版本。
 
 ### 构建并发布到中央仓库
 
-维护者 happyfish100 注册 sonatype 帐号，生成 GPG，并在 `settings.xml` 中填入注册的帐号和 GPG 信息。
+需要所有者 @happyfish100 到 https://issues.sonatype.org/ 注册帐号，生成 GPG 。
 
-执行全局替换，将 `rui8832` 替换为 `happyfish100`。
+将 `pom.xml` 中的 `rui8832` 替换为 `happyfish100` 。
 
 然后执行下面的命令发布到中央仓库：
 
 ```
-mvn -e -X -B -U -s settings.xml -P ossrh clean deploy
+mvn -e -U clean deploy \
+  -s settings.xml \
+  -P ossrh \
+  -DGPG_PASSPHRASE="<填写GPG密码>" \
+  -DSERVER_OSSRH_USERNAME="<填写sonatype用户名>" \
+  -DERVER_OSSRH_PASSWORD="<填写sonatype密码>"
 ```
 
-发布完成后一般 2~3 内同步到中央仓库。
+发布完成后 30分钟到 4小时同步到中央仓库。
+
+```
+Central sync is activated for io.github.rui8832. After you successfully release, your component 
+will be published to Central https://repo1.maven.org/maven2/, typically within 30 minutes, though 
+updates to https://search.maven.org can take up to four hours.
+```
 
 ## 使用源码构建
 
@@ -91,6 +110,11 @@ mvn install:install-file -DgroupId=org.csource -DartifactId=fastdfs-client-java 
 ```xml
 
 <dependency>
+  <!-- TODO 主仓库 groupId -->
+  <!-- 
+  <groupId>org.csource</groupId>
+  <groupId>io.github.happyfish100</groupId>
+  -->
   <groupId>org.csource</groupId>
   <artifactId>fastdfs-client-java</artifactId>
   <version>1.30-SNAPSHOT</version>
